@@ -12,7 +12,8 @@ local math_abs = math.abs
 Public.level_depth = 704
 Public.level_width = 640
 local worm_level_modifier = 0.19
-local average_number_of_wagons_per_level = 2
+local min_number_of_wagons_per_level = 1
+local max_number_of_wagons_per_level = 3
 local wagon_depth = 600
 local wagon_width = 320
 
@@ -82,7 +83,7 @@ local function place_wagon(x, y, data)
     local wagon_location = WPT.get().wagon_location
     if not wagon_location[index] then
         local loc = {}
-        for _ = 1, average_number_of_wagons_per_level, 1 do
+        for _ = 1, math_random(min_number_of_wagons_per_level, max_number_of_wagons_per_level), 1 do
             loc[#loc+1] = {
                 x = (math_random()-0.5) * wagon_width,
                 y = - math_random()*wagon_depth - index*Public.level_depth - (Public.level_depth-wagon_depth)/2,
