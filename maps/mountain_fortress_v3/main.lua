@@ -314,6 +314,28 @@ local on_player_changed_position = function(event)
             end
         end
     end
+    if position.x > 255 then
+        player.teleport({position.x - 1, position.y}, surface)
+        player.print('不可越界.', {r = 0.98, g = 0.66, b = 0.22})
+        if player.character then
+            player.character.health = player.character.health - 5
+            player.character.surface.create_entity({name = 'water-splash', position = position})
+            if player.character.health <= 0 then
+                player.character.die('enemy')
+            end
+        end
+    end
+    if position.x < -255 then
+        player.teleport({position.x + 1, position.y}, surface)
+        player.print('不可越界.', {r = 0.98, g = 0.66, b = 0.22})
+        if player.character then
+            player.character.health = player.character.health - 5
+            player.character.surface.create_entity({name = 'water-splash', position = position})
+            if player.character.health <= 0 then
+                player.character.die('enemy')
+            end
+        end
+    end
 end
 
 local on_player_joined_game = function(event)
