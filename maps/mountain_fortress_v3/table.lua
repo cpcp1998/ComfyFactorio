@@ -15,7 +15,8 @@ local this = {
     magic_fluid_crafters = {index = 1},
     breached_wall = 1,
     entity_limits = {},
-    traps = {}
+    traps = {},
+    wagon_location = {},
 }
 local Public = {}
 
@@ -87,6 +88,7 @@ function Public.reset_table()
         y = 0
     }
     this.traps = {}
+    this.wagon_location = {}
 end
 
 function Public.get(key)

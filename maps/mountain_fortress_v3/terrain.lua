@@ -1,4 +1,3 @@
-local Global = require 'utils.global'
 local Event = require 'utils.event'
 local Biters = require 'modules.wave_defense.biter_rolls'
 local Functions = require 'maps.mountain_fortress_v3.functions'
@@ -78,16 +77,9 @@ local turret_list = {
     [6] = {name = 'artillery-turret', callback = callback[6]}
 }
 
-local wagon_location = {}
-
-Global.register({wagon_location = wagon_location},
-    function(tbl)
-        wagon_location = tbl.wagon_location
-    end
-)
-
 local function place_wagon(x, y, data)
     local index = math_floor(math_abs(y / Public.level_depth))
+    local wagon_location = WPT.get().wagon_location
     if not wagon_location[index] then
         local loc = {}
         for _ = 1, average_number_of_wagons_per_level, 1 do
