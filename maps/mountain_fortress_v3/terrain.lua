@@ -1,3 +1,4 @@
+local Global = require 'utils.global'
 local Event = require 'utils.event'
 local Biters = require 'modules.wave_defense.biter_rolls'
 local Functions = require 'maps.mountain_fortress_v3.functions'
@@ -13,8 +14,8 @@ Public.level_depth = 704
 Public.level_width = 640
 local worm_level_modifier = 0.19
 local average_number_of_wagons_per_level = 2
-local chunks_per_level = ((Public.level_depth - 32) / 32) ^ 2
-local chance_for_wagon_spawn = math_floor(chunks_per_level / average_number_of_wagons_per_level)
+local wagon_depth = 600
+local wagon_width = 320
 
 local wagon_raffle = {'cargo-wagon', 'cargo-wagon', 'cargo-wagon', 'locomotive', 'fluid-wagon'}
 local rock_raffle = {
@@ -77,16 +78,43 @@ local turret_list = {
     [6] = {name = 'artillery-turret', callback = callback[6]}
 }
 
-local function place_wagon(data)
-    if math_random(1, 1500) ~= 1 then
+local wagon_location = {}
+
+Global.register({wagon_location = wagon_location},
+    function(tbl)
+        wagon_location = tbl.wagon_location
+    end
+)
+
+local function place_wagon(x, y, data)
+    local index = math_floor(math_abs(y / Public.level_depth))
+    if not wagon_location[index] then
+        local loc = {}
+        for _ = 1, average_number_of_wagons_per_level, 1 do
+            loc[#loc+1] = {
+                x = (math_random()-0.5) * wagon_width,
+                y = - math_random()*wagon_depth - index*Public.level_depth - (Public.level_depth-wagon_depth)/2,
+            }
+        end
+        wagon_location[index] = loc
+    end
+
+    local legal = false
+    for key, pos in pairs(wagon_location[index]) do
+        if math_abs(pos.x - x) < 0.6 and math_abs(pos.y - y) < 0.6 then
+            legal = true
+            wagon_location[index][key] = nil
+            break
+        end
+    end
+    if not legal then
         return
     end
+
     local surface = data.surface
     local tiles = data.tiles
     local entities = data.entities
-    local top_x = data.top_x
-    local top_y = data.top_y
-    local position = {x = top_x + math_random(4, 12) * 2, y = top_y + math_random(4, 12) * 2}
+    local position = {x = x, y = y}
     local wagon_mineable = {
         callback = Functions.disable_minable_and_ICW_callback
     }
@@ -1572,9 +1600,7 @@ function Public.heavy_functions(x, y, data)
 
     if top_y < 0 then
         process_bits(x, y, data)
-        if math_random(1, chance_for_wagon_spawn) == 1 then
-            place_wagon(data)
-        end
+        place_wagon(x, y, data)
         return
     end
 
