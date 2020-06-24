@@ -19,7 +19,7 @@ local collapse_message =
     Token.register(
     function(data)
         local pos = data.position
-        local message = keeper .. 'Warning, collapse has begun!'
+        local message = keeper .. '警告：坍塌已经开始！'
         local collapse_position = {
             position = pos
         }
@@ -32,7 +32,7 @@ local zone_complete =
     function(data)
         local bonus = data.bonus
         local player = data.player
-        local message = keeper .. 'Survivor! Well done. You have completed zone: ' .. bonus
+        local message = keeper .. '幸存者! 干得漂亮. 你已经穿过了区域: ' .. bonus
         Alert.alert_player_warning(player, 10, message)
     end
 )
@@ -42,7 +42,7 @@ local first_player_to_zone =
     function(data)
         local player = data.player
         local breached_wall = data.breached_wall
-        local message = concat {keeper .. player.name .. ' was the first to reach zone ' .. breached_wall .. '.'}
+        local message = concat {keeper .. player.name .. ' 第一个到达区域 ' .. breached_wall .. '.'}
         Alert.alert_all_players(10, message)
     end
 )

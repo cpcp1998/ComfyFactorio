@@ -558,12 +558,12 @@ local function gui_click(event)
 
         local message =
             shopkeeper ..
-            player.name .. ' has bought the locomotive health modifier for ' .. format_number(cost, true) .. ' coins.'
+            player.name .. ' 花费了 ' .. format_number(cost, true) .. ' 金币购买火车生命值提高.'
         Alert.alert_all_players(5, message)
         Server.to_discord_bold(
             table.concat {
                 player.name ..
-                    ' has bought the locomotive health modifier for ' .. format_number(cost, true) .. ' coins.'
+                    ' 花费了 ' .. format_number(cost, true) .. ' 金币购买火车生命值提高.'
             }
         )
         this.locomotive_max_health = this.locomotive_max_health + 2500 * item_count
@@ -584,12 +584,12 @@ local function gui_click(event)
 
         local message =
             shopkeeper ..
-            player.name .. ' has bought the locomotive xp aura modifier for ' .. format_number(cost, true) .. ' coins.'
+            player.name .. ' 花费了 ' .. format_number(cost, true) .. ' 金币购买火车经验值光环增大.'
         Alert.alert_all_players(5, message)
         Server.to_discord_bold(
             table.concat {
                 player.name ..
-                    ' has bought the locomotive xp aura modifier for ' .. format_number(cost, true) .. ' coins.'
+                    ' 花费了 ' .. format_number(cost, true) .. ' 金币购买火车经验值光环增大.'
             }
         )
         this.locomotive_xp_aura = this.locomotive_xp_aura + 5
@@ -620,11 +620,11 @@ local function gui_click(event)
 
         local message =
             shopkeeper ..
-            player.name .. ' has bought the XP points modifier for ' .. format_number(cost, true) .. ' coins.'
+            player.name .. ' 花费了 ' .. format_number(cost, true) .. ' 金币购买火车经验光环加速.'
         Alert.alert_all_players(5, message)
         Server.to_discord_bold(
             table.concat {
-                player.name .. ' has bought the XP points modifier for ' .. format_number(cost) .. ' coins.'
+                player.name .. ' 花费了 ' .. format_number(cost) .. ' 金币购买火车经验光环加速.'
             }
         )
         this.xp_points = this.xp_points + 0.5
@@ -642,26 +642,26 @@ local function gui_click(event)
         if item_count >= 1 then
             local message =
                 shopkeeper ..
-                player.name .. ' has bought a flamethrower-turret slot for ' .. format_number(cost, true) .. ' coins.'
+                player.name .. ' 花费了 ' .. format_number(cost, true) .. ' 金币购买了火焰塔位置.'
             Alert.alert_all_players(5, message)
             Server.to_discord_bold(
                 table.concat {
                     player.name ..
-                        ' has bought a flamethrower-turret slot for ' .. format_number(cost, true) .. ' coins.'
+                        ' 花费了 ' .. format_number(cost, true) .. ' 金币购买了火焰塔位置.'
                 }
             )
         else
             local message =
                 shopkeeper ..
                 player.name ..
-                    ' has bought ' ..
-                        item_count .. ' flamethrower-turret slots for ' .. format_number(cost, true) .. ' coins.'
+                    ' 购买了 ' ..
+                        item_count .. ' 火焰塔位置，花费 ' .. format_number(cost, true) .. ' 金币.'
             Alert.alert_all_players(5, message)
             Server.to_discord_bold(
                 table.concat {
                     player.name ..
-                        ' has bought ' ..
-                            item_count .. ' flamethrower-turret slots for ' .. format_number(cost, true) .. ' coins.'
+                        ' 购买了 ' ..
+                            item_count .. ' 火焰塔位置，花费 ' .. format_number(cost, true) .. ' 金币.'
                 }
             )
         end
@@ -679,15 +679,15 @@ local function gui_click(event)
         if item_count >= 1 and this.upgrades.landmine.bought % 10 == 0 then
             local message =
                 shopkeeper ..
-                player.name .. ' has bought a landmine slot for ' .. format_number(cost, true) .. ' coins.'
+                player.name .. ' 花费了 ' .. format_number(cost, true) .. ' 金币购买了地雷位置.'
             Alert.alert_all_players(3, message)
 
             if cost >= 1000 then
                 Server.to_discord_bold(
                     table.concat {
                         player.name ..
-                            ' has bought ' ..
-                                item_count .. ' landmine slots for ' .. format_number(cost, true) .. ' coins.'
+                            ' 购买了 ' ..
+                                item_count .. ' 地雷位置，花费 ' .. format_number(cost, true) .. ' 金币.'
                     }
                 )
             end
@@ -706,7 +706,7 @@ local function gui_click(event)
         local message =
             shopkeeper ..
             player.name ..
-                ' decided to recycle their RPG skills and start over for ' .. format_number(cost, true) .. ' coins.'
+                ' 决定洗点，花费 ' .. format_number(cost, true) .. ' 金币.'
         Alert.alert_all_players(10, message)
 
         RPG.rpg_reset_player(player, true)
@@ -1091,7 +1091,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = health_cost,
-        tooltip = 'Upgrades the train health.\nCan be purchased multiple times.',
+        tooltip = '增加火车生命值.\n可多次购买.',
         sprite = 'achievement/getting-on-track',
         enabled = true
     }
@@ -1099,7 +1099,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = aura_cost,
-        tooltip = 'Upgrades the XP aura that is around the train.',
+        tooltip = '增大火车经验光环.',
         sprite = 'achievement/tech-maniac',
         enabled = true
     }
@@ -1107,7 +1107,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = xp_point_boost_cost,
-        tooltip = 'Upgrades the amount of XP points you get inside the XP aura',
+        tooltip = '增加火车经验光环的获取速度',
         sprite = 'achievement/trans-factorio-express',
         enabled = true
     }
@@ -1115,7 +1115,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = flamethrower_turrets_cost,
-        tooltip = 'Upgrades the amount of flamethrowers that can be placed.',
+        tooltip = '增加火焰炮塔位置.',
         sprite = 'achievement/pyromaniac',
         enabled = true
     }
@@ -1123,7 +1123,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = land_mine_cost,
-        tooltip = 'Upgrades the amount of landmines that can be placed.',
+        tooltip = '增加地雷位置.',
         sprite = 'achievement/watch-your-step',
         enabled = true
     }
@@ -1131,7 +1131,7 @@ function Public.get_items()
         stack = 1,
         value = 'coin',
         price = skill_reset_cost,
-        tooltip = 'For when you have picked the wrong RPG path and want to start over.\nPoints will be kept.',
+        tooltip = '购买一次RPG洗点.',
         sprite = 'achievement/golem',
         enabled = true
     }

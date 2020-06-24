@@ -21,10 +21,10 @@ local experience_levels = {0}
 for a = 1, 9999, 1 do
     experience_levels[#experience_levels + 1] = experience_levels[#experience_levels] + a * 8
 end
-local gain_info_tooltip = 'XP gain from mining, moving, crafting, repairing and combat.'
-local reset_tooltip = 'ONE-TIME reset if you picked the wrong path (this will keep your points)'
+local gain_info_tooltip = '经验值可以通过挖掘，移动，手搓，修理和战斗获得.'
+local reset_tooltip = '一次性的重置机会'
 local reset_not_available =
-    'ONE-TIME reset if you picked the wrong path (this will keep your points)\nAvailable after level 50.'
+    '如果你选择了错误的加点方式，50级之后可以有一次重置点数的机会.'
 
 local teller_global_pool = '[color=blue]Global Pool Reward:[/color] \n'
 local teller_level_limit = '[color=blue]Level Limit:[/color] \n'
@@ -335,7 +335,7 @@ local function add_gui_increase_stat(element, name, player)
     e.style.padding = 0
     e.style.margin = 0
     e.tooltip =
-        'Right-click to allocate ' .. tostring(points_per_level) .. ' points.\nShift + click to allocate all points.'
+        '右键点击可以增加 ' .. tostring(points_per_level) .. ' 点.\nShift + 左键点击可以把所有剩余点数加上.'
 
     return e
 end
@@ -403,7 +403,7 @@ local function draw_gui(player, forced)
     t = scroll_pane.add({type = 'table', column_count = 4})
     t.style.cell_padding = 1
 
-    add_gui_description(t, 'LEVEL', 80)
+    add_gui_description(t, '等级', 80)
     e = add_gui_stat(t, rpg_t[player.index].level, 80)
     if rpg_extra.level_limit_enabled then
         local level_tooltip =
@@ -414,7 +414,7 @@ local function draw_gui(player, forced)
         e.tooltip = gain_info_tooltip
     end
 
-    add_gui_description(t, 'EXPERIENCE', 100)
+    add_gui_description(t, '经验值', 100)
     e = add_gui_stat(t, math.floor(rpg_t[player.index].xp), 125)
     e.tooltip = gain_info_tooltip
 
@@ -431,7 +431,7 @@ local function draw_gui(player, forced)
         add_gui_description(t, ' ', 75)
     end
 
-    add_gui_description(t, 'NEXT LEVEL', 100)
+    add_gui_description(t, '下一级', 100)
     e = add_gui_stat(t, experience_levels[rpg_t[player.index].level + 1], 125)
     e.tooltip = gain_info_tooltip
 
@@ -443,28 +443,28 @@ local function draw_gui(player, forced)
     local w1 = 85
     local w2 = 63
 
-    local tip = 'Increases inventory slots, mining speed.\nIncreases melee damage and amount of robot followers.'
+    local tip = '增加挖矿速度和背包格数.\n增加近战攻击伤害和战斗无人机跟随数.'
     e = add_gui_description(tt, 'STRENGTH', w1)
     e.tooltip = tip
     e = add_gui_stat(tt, rpg_t[player.index].strength, w2)
     e.tooltip = tip
     add_gui_increase_stat(tt, 'strength', player)
 
-    local tip = 'Increases reach distance.\nIncreases repair speed.'
+    local tip = '增加操作距离.\n增加修理速度.'
     e = add_gui_description(tt, 'MAGIC', w1)
     e.tooltip = tip
     e = add_gui_stat(tt, rpg_t[player.index].magicka, w2)
     e.tooltip = tip
     add_gui_increase_stat(tt, 'magicka', player)
 
-    local tip = 'Increases running and crafting speed.'
+    local tip = '增加移动和手搓速度.'
     e = add_gui_description(tt, 'DEXTERITY', w1)
     e.tooltip = tip
     e = add_gui_stat(tt, rpg_t[player.index].dexterity, w2)
     e.tooltip = tip
     add_gui_increase_stat(tt, 'dexterity', player)
 
-    local tip = 'Increases health.\nIncreases melee life on-hit.'
+    local tip = '增加生命值.\n增加攻击回复生命值.'
     e = add_gui_description(tt, 'VITALITY', w1)
     e.tooltip = tip
     e = add_gui_stat(tt, rpg_t[player.index].vitality, w2)
@@ -510,19 +510,19 @@ local function draw_gui(player, forced)
     local w2 = 80
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'MINING\nSPEED', w1)
+    add_gui_description(tt, '挖矿速度', w1)
     value =
         math_round((player.force.manual_mining_speed_modifier + player.character_mining_speed_modifier + 1) * 100) ..
         '%'
     add_gui_stat(tt, value, w2)
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'SLOT\nBONUS', w1)
+    add_gui_description(tt, '背包格数', w1)
     value = '+ ' .. math_round(player.force.character_inventory_slots_bonus + player.character_inventory_slots_bonus)
     add_gui_stat(tt, value, w2)
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'MELEE\nDAMAGE', w1)
+    add_gui_description(tt, '近战伤害', w1)
     value = math_round(100 * (1 + get_melee_modifier(player))) .. '%'
     e = add_gui_stat(tt, value, w2)
     e.tooltip =
@@ -545,7 +545,7 @@ local function draw_gui(player, forced)
     tooltip = tooltip .. '\nResource reach distance bonus: ' .. player.character_resource_reach_distance_bonus
     tooltip = tooltip .. '\nRepair speed: ' .. Public.get_magicka(player)
     add_gui_description(tt, ' ', w0)
-    e = add_gui_description(tt, 'REACH\nDISTANCE', w1)
+    e = add_gui_description(tt, '操作距离', w1)
     e.tooltip = tooltip
     e = add_gui_stat(tt, value, w2)
     e.tooltip = tooltip
@@ -558,14 +558,14 @@ local function draw_gui(player, forced)
     e.style.maximal_height = 10
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'CRAFTING\nSPEED', w1)
+    add_gui_description(tt, '手搓速度', w1)
     value =
         math_round((player.force.manual_crafting_speed_modifier + player.character_crafting_speed_modifier + 1) * 100) ..
         '%'
     add_gui_stat(tt, value, w2)
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'RUNNING\nSPEED', w1)
+    add_gui_description(tt, '奔跑速度', w1)
     value =
         math_round((player.force.character_running_speed_modifier + player.character_running_speed_modifier + 1) * 100) ..
         '%'
@@ -579,7 +579,7 @@ local function draw_gui(player, forced)
     e.style.maximal_height = 10
 
     add_gui_description(tt, ' ', w0)
-    add_gui_description(tt, 'HEALTH\nBONUS', w1)
+    add_gui_description(tt, '生命值', w1)
     value = '+ ' .. math_round((player.force.character_health_bonus + player.character_health_bonus))
     e = add_gui_stat(tt, value, w2)
     e.tooltip = 'Health regen bonus: ' .. get_heal_modifier(player)

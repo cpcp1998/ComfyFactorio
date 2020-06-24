@@ -37,7 +37,8 @@ local links = {
 
 local function on_player_created(event)
     local player = game.players[event.player_index]
-    player.print('[font=' .. font .. ']' .. 'Join the comfy discord >> getcomfy.eu/discord' .. '[/font]', font_color)
+    player.print('[font=' .. font .. ']' .. '欢迎来到这个作死的服务器。本服QQ群：646399818' .. '[/font]', font_color)
+    player.print('[font=' .. font .. ']' .. '请保持礼貌，尊重他人的成果；也请积极改善生产，拓荒领地！' .. '[/font]', font_color)
 end
 
 commands.add_command(

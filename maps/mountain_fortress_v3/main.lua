@@ -305,7 +305,7 @@ local on_player_changed_position = function(event)
 
     if position.y >= 74 then
         player.teleport({position.x, position.y - 1}, surface)
-        player.print('Forcefield does not approve.', {r = 0.98, g = 0.66, b = 0.22})
+        player.print('不可越界.', {r = 0.98, g = 0.66, b = 0.22})
         if player.character then
             player.character.health = player.character.health - 5
             player.character.surface.create_entity({name = 'water-splash', position = position})
@@ -330,7 +330,7 @@ local on_player_joined_game = function(event)
         this.players[player.index] = {
             data = {}
         }
-        local message = comfy .. 'Greetings, ' .. player.name .. '!\nPlease read the map info.'
+        local message = comfy .. '欢迎, ' .. player.name .. '!\n请仔细阅读地图信息.'
         Alert.alert_player(player, 15, message)
         for item, amount in pairs(starting_items) do
             player.insert({name = item, count = amount})
