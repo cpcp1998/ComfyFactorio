@@ -1285,7 +1285,7 @@ end
 
 local function on_player_respawned(event)
     local player = game.players[event.player_index]
-    if not rpg_t[player.index] then
+    if not rpg_t[player.index] or rpg_t[player.index].old_xp ~= nil then
         Public.rpg_reset_player(player)
         return
     end
@@ -1295,7 +1295,7 @@ end
 
 local function on_player_joined_game(event)
     local player = game.players[event.player_index]
-    if not rpg_t[player.index] then
+    if not rpg_t[player.index] or rpg_t[player.index].old_xp ~= nil then
         Public.rpg_reset_player(player)
         if rpg_extra.reward_new_players > 10 then
             Public.gain_xp(player, rpg_extra.reward_new_players)
@@ -1374,9 +1374,13 @@ function Public.rpg_reset_player(player, one_time_reset)
         rpg_t[player.index].xp = old_xp
         rpg_t[player.index].level = old_level
     else
+        local xp = 0
+        if rpg_t[player.index] and rpg_t[player.index].old_xp ~= nil then
+            xp = rpg_t[player.index].old_xp
+        end
         rpg_t[player.index] = {
             level = 1,
-            xp = 0,
+            xp = xp,
             strength = 10,
             magicka = 10,
             dexterity = 10,
@@ -1401,7 +1405,7 @@ end
 
 function Public.rpg_reset_all_players()
     for k, _ in pairs(rpg_t) do
-        rpg_t[k] = nil
+        rpg_t[k] = {old_xp = rpg_t[k].xp}
     end
     for _, p in pairs(game.connected_players) do
         Public.rpg_reset_player(p)
