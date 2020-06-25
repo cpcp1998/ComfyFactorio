@@ -89,6 +89,7 @@ function Public.reset_table()
     }
     this.traps = {}
     this.wagon_location = {}
+    this.start_tick = game.tick
 end
 
 function Public.get(key)

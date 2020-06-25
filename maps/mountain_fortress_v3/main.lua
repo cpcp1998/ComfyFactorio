@@ -598,7 +598,7 @@ local on_tick = function()
         end
     end
 
-    if game.tick > 900*60 then
+    if game.tick - WPT.get().start_tick > 900*60 then
         Collapse.start_now(true)
     end
 end
