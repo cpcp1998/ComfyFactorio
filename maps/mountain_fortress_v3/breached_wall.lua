@@ -92,7 +92,7 @@ local function distance(player)
             local data = {
                 position = Collapse.get_position()
             }
-            Task.set_timeout_in_ticks(550, collapse_message, data)
+            --Task.set_timeout_in_ticks(550, collapse_message, data)
         end
         rpg_t[player.index].bonus = bonus + 1
         local data = {

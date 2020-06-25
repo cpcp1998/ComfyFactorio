@@ -87,11 +87,12 @@ local set_difficulty = function()
     -- threat gain / wave
     wave_defense_table.threat_gain_multiplier = 1.2 + player_count * Diff.difficulty_vote_value * 0.1
 
-    local amount = player_count * 0.25 + 2
+    --[[local amount = player_count * 0.25 + 2
     amount = math.floor(amount)
     if amount > 6 then
         amount = 6
-    end
+    end--]]
+    local amount = math.floor(Terrain.level_width * 8 / 400)
     Collapse.set_amount(amount)
 
     wave_defense_table.wave_interval = 3600 - player_count * 60
@@ -595,6 +596,10 @@ local on_tick = function()
                 wave_defense_table.spawn_position = position
             end
         end
+    end
+
+    if game.tick > 900*60 then
+        Collapse.start_now(true)
     end
 end
 
