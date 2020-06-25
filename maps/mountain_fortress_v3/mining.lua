@@ -147,7 +147,9 @@ function Public.entity_died_randomness(data)
 
     local position = {x = entity.position.x, y = entity.position.y}
 
-    surface.spill_item_stack(position, {name = harvest, count = math_random(1, 5)}, true)
+    local harvest_amount = math_random(1, 5)
+    surface.spill_item_stack(position, {name = harvest, count = harvest_amount}, true)
+    game.forces.player.item_production_statistics.on_flow(harvest, harvest_amount)
     local particle = particles[harvest]
     create_particles(surface, particle, position, 64, {x = entity.position.x, y = entity.position.y})
 end
@@ -211,14 +213,18 @@ local function randomness(data)
 
     if harvest_amount > max_spill then
         player.surface.spill_item_stack(position, {name = harvest, count = max_spill}, true)
+        game.forces.player.item_production_statistics.on_flow(harvest, max_spill)
         harvest_amount = harvest_amount - max_spill
         local inserted_count = player.insert({name = harvest, count = harvest_amount})
+        game.forces.player.item_production_statistics.on_flow(harvest, inserted_count)
         harvest_amount = harvest_amount - inserted_count
         if harvest_amount > 0 then
             player.surface.spill_item_stack(position, {name = harvest, count = harvest_amount}, true)
+            game.forces.player.item_production_statistics.on_flow(harvest, harvest_amount)
         end
     else
         player.surface.spill_item_stack(position, {name = harvest, count = harvest_amount}, true)
+        game.forces.player.item_production_statistics.on_flow(harvest, harvest_amount)
     end
     local particle = particles[harvest]
     create_particles(player.surface, particle, position, 64, {x = player.position.x, y = player.position.y})
