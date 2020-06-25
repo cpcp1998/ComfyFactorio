@@ -264,11 +264,11 @@ end
 
 local function on_tick()
     local data = {
-        {name = 'iron-ore', chance = 10},
-        {name = 'copper-ore', chance = 10},
-        {name = 'coal', chance = 10},
-        {name = 'stone', chance = 10},
-        {name = 'uranium-ore', chance = 10}
+        {name = 'iron-ore', chance = 100},
+        {name = 'copper-ore', chance = 100},
+        {name = 'coal', chance = 100},
+        {name = 'stone', chance = 100},
+        {name = 'uranium-ore', chance = 100}
     }
 
     local total = 1
