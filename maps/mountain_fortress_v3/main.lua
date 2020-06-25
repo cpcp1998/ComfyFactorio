@@ -92,7 +92,7 @@ local set_difficulty = function()
     if amount > 6 then
         amount = 6
     end--]]
-    local amount = math.floor(Terrain.level_width * 8 / 400)
+    local amount = math.floor(Terrain.level_width * 8 / 600)
     Collapse.set_amount(amount)
 
     wave_defense_table.wave_interval = 3600 - player_count * 60
@@ -598,7 +598,7 @@ local on_tick = function()
         end
     end
 
-    if game.tick - WPT.get().start_tick > 900*60 then
+    if game.tick - WPT.get().start_tick > (900 + 2 * 3600) * 60 then
         Collapse.start_now(true)
     end
 end
