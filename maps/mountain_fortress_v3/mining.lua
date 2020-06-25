@@ -1,5 +1,6 @@
 local WPT = require 'maps.mountain_fortress_v3.table'
 local Event = require 'utils.event'
+local Global = require 'utils.global'
 
 local Public = {}
 
@@ -92,6 +93,12 @@ for _, t in pairs(mining_chances_ores()) do
         table.insert(harvest_raffle_ores, t.name)
     end
 end
+
+Global.register(harvest_raffle_ores,
+    function(tbl)
+        harvest_raffle_ores = tbl
+    end
+)
 
 local function get_amount(data)
     local entity = data.entity
@@ -274,7 +281,9 @@ local function on_tick()
         t.chance = t.chance + math_floor(t.stat / total * 1000)
     end
 
-    harvest_raffle_ores = {}
+    for k, _ in pairs(harvest_raffle_ores) do
+        harvest_raffle_ores[k] = nil
+    end
     for _, t in pairs(data) do
         for _ = 1, t.chance, 1 do
             table.insert(harvest_raffle_ores, t.name)
