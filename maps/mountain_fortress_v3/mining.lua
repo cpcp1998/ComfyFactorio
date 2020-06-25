@@ -1,4 +1,5 @@
 local WPT = require 'maps.mountain_fortress_v3.table'
+local Event = require 'utils.event'
 
 local Public = {}
 
@@ -92,8 +93,6 @@ for _, t in pairs(mining_chances_ores()) do
     end
 end
 
-local size_of_ore_raffle = #harvest_raffle_ores
-
 local function get_amount(data)
     local entity = data.entity
     local this = data.this
@@ -143,7 +142,7 @@ function Public.entity_died_randomness(data)
     local surface = data.surface
     local harvest
 
-    harvest = harvest_raffle_ores[math.random(1, size_of_ore_raffle)]
+    harvest = harvest_raffle_ores[math.random(1, #harvest_raffle_ores)]
 
     local position = {x = entity.position.x, y = entity.position.y}
 
@@ -197,7 +196,7 @@ local function randomness(data)
 
     ::continue::
 
-    harvest = harvest_raffle_ores[math.random(1, size_of_ore_raffle)]
+    harvest = harvest_raffle_ores[math.random(1, #harvest_raffle_ores)]
     harvest_amount = get_amount(data)
 
     local position = {x = entity.position.x, y = entity.position.y}
@@ -255,5 +254,34 @@ function Public.on_player_mined_entity(event)
 
     randomness(data)
 end
+
+local function on_tick()
+    local data = {
+        {name = 'iron-ore', chance = 10},
+        {name = 'copper-ore', chance = 10},
+        {name = 'coal', chance = 10},
+        {name = 'stone', chance = 10},
+        {name = 'uranium-ore', chance = 10}
+    }
+
+    local total = 1
+    for _, t in pairs(data) do
+        t.stat = 0.2 * game.forces.player.item_production_statistics.get_flow_count{name=t.name, precision_index=defines.flow_precision_index.one_hour, input=false, count=true}
+        t.stat = t.stat + game.forces.player.item_production_statistics.get_flow_count{name=t.name, precision_index=defines.flow_precision_index.ten_minutes, input=false, count=true}
+        total = total + t.stat
+    end
+    for _, t in pairs(data) do
+        t.chance = t.chance + math_floor(t.stat / total * 1000)
+    end
+
+    harvest_raffle_ores = {}
+    for _, t in pairs(data) do
+        for _ = 1, t.chance, 1 do
+            table.insert(harvest_raffle_ores, t.name)
+        end
+    end
+end
+
+Event.on_nth_tick(60, on_tick)
 
 return Public
