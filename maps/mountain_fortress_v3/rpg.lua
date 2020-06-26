@@ -1405,7 +1405,9 @@ end
 
 function Public.rpg_reset_all_players()
     for k, _ in pairs(rpg_t) do
-        rpg_t[k] = {old_xp = rpg_t[k].xp}
+        if rpg_t[k].old_xp == nil then
+            rpg_t[k] = {old_xp = rpg_t[k].xp}
+        end
     end
     for _, p in pairs(game.connected_players) do
         Public.rpg_reset_player(p)
